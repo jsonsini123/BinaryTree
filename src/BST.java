@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 /**
  * An Integer Binary Search Tree
- * @author: Your Name Here
- * @version: Date
+ * @author: Jake Sonsini
+ * @version: April 26
  */
 
 public class BST {
@@ -46,33 +46,91 @@ public class BST {
      * @param val integer value to search for
      * @return true if val is in the tree, false otherwise
      */
+    // This function calls the searchHelper method that completes the task
     public boolean search(int val) {
-        // TODO: Complete the search function
-        return false;
+        return searchHelper(val, root);
     }
-
+    public boolean searchHelper(int val, BSTNode cur){
+        // Base case checks if the current node is invalid
+        if (cur == null){
+            return false;
+        }
+        // If the current node equals the value then return true
+        if (cur.getVal() == val){
+            return true;
+        }
+        // Makes recursive call that splits each root the left and right side
+        if (cur.getVal() > val){
+            return searchHelper(val, cur.getLeft());
+        }
+        else{
+            return searchHelper(val, cur.getRight());
+        }
+    }
     /**
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
-        // TODO: Complete inorder traversal
-        return null;
+        //Inorder Traversal visits each node from Left → Root → Right
+        // Create a new ArrayList and then call the inOrder function inputting the list
+        ArrayList<BSTNode> inOrderlist = new ArrayList<>();
+        inOrder(root, inOrderlist);
+        return inOrderlist;
     }
-
+    public void inOrder(BSTNode cur, ArrayList<BSTNode> total){
+        // Check to see if the current Node is a leaf
+        if (cur.getLeft() == null && cur.getRight() == null){
+            total.add(cur);
+            return;
+        }
+        // Call recursively following the inOrder order (left > root > right)
+        inOrder(cur.getLeft(), total);
+        total.add(cur);
+        inOrder(cur.getRight(), total);
+    }
     /**
      * @return ArrayList of BSTNodes in preorder
      */
     public ArrayList<BSTNode> getPreorder() {
-        // TODO: Complete preorder traversal
-        return null;
+        //Preorder Traversal visits each node from Root → Left → Right
+        // Create a new ArrayList and then call the preOrder function inputting the list
+        ArrayList<BSTNode> preOrderlist = new ArrayList<>();
+        preOrder(root, preOrderlist);
+        return preOrderlist;
+
+    }
+    public void preOrder(BSTNode cur, ArrayList<BSTNode> total){
+        // Check to see if the current Node is a leaf
+        if (cur.getLeft() == null && cur.getRight() == null){
+            total.add(cur);
+            return;
+        }
+        // Call recursively following the preOrder order (root > left > right)
+        total.add(cur);
+        inOrder(cur.getLeft(), total);
+        inOrder(cur.getRight(), total);
     }
 
     /**
      * @return ArrayList of BSTNodes in postorder
      */
     public ArrayList<BSTNode> getPostorder() {
-        // TODO: Complete postorder traversal
-        return null;
+        //Postorder Traversal visits each node from Left → Right → Root
+        // Create a new ArrayList and then call the postOrder function inputting the list
+        ArrayList<BSTNode> postOrderlist = new ArrayList<>();
+        postOrder(root, postOrderlist);
+        return postOrderlist;
+    }
+    public void postOrder(BSTNode cur, ArrayList<BSTNode> total){
+        // Check to see if the current Node is a leaf
+        if (cur.getLeft() == null && cur.getRight() == null){
+            total.add(cur);
+            return;
+        }
+        // Call recursively following the postOrder order (left > right > root)
+        inOrder(cur.getLeft(), total);
+        inOrder(cur.getRight(), total);
+        total.add(cur);
     }
 
     /**

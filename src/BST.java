@@ -61,11 +61,9 @@ public class BST {
         }
         // Makes recursive call that splits each root the left and right side
         if (cur.getVal() > val){
-            // Left
             return searchHelper(val, cur.getLeft());
         }
         else{
-            // Right
             return searchHelper(val, cur.getRight());
         }
     }

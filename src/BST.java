@@ -1,3 +1,4 @@
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.util.ArrayList;
 
 /**
@@ -84,9 +85,13 @@ public class BST {
             return;
         }
         // Call recursively following the inOrder order (left > root > right)
-        inOrder(cur.getLeft(), total);
+        if (cur.getLeft() != null){
+            inOrder(cur.getLeft(), total);
+        }
         total.add(cur);
-        inOrder(cur.getRight(), total);
+        if (cur.getRight() != null){
+            inOrder(cur.getRight(), total);
+        }
     }
     /**
      * @return ArrayList of BSTNodes in preorder
@@ -107,8 +112,12 @@ public class BST {
         }
         // Call recursively following the preOrder order (root > left > right)
         total.add(cur);
-        inOrder(cur.getLeft(), total);
-        inOrder(cur.getRight(), total);
+        if (cur.getLeft() != null){
+            preOrder(cur.getLeft(), total);
+        }
+        if (cur.getRight() != null){
+            preOrder(cur.getRight(), total);
+        }
     }
 
     /**
@@ -128,8 +137,12 @@ public class BST {
             return;
         }
         // Call recursively following the postOrder order (left > right > root)
-        inOrder(cur.getLeft(), total);
-        inOrder(cur.getRight(), total);
+        if (cur.getLeft() != null){
+            postOrder(cur.getLeft(), total);
+        }
+        if (cur.getRight() != null){
+            postOrder(cur.getRight(), total);
+        }
         total.add(cur);
     }
 
@@ -140,9 +153,35 @@ public class BST {
      * @param val The value ot insert
      */
     public void insert(int val) {
-        // TODO: Complete insert
+        // check if it is already there
+        if (search(val)){
+            return;
+        }
+        // Create the insert node
+        BSTNode set = new BSTNode(val);
+        // Call the helper recursive method
+        insertHelper(root, set);
     }
-
+    public void insertHelper(BSTNode cur, BSTNode set){
+        // First check if the set node is going on the left or right side
+        // Then at the same time check if it is null, if so it is empty so add the set node
+        if (cur.getVal() > set.getVal() && cur.getLeft() == null){
+            cur.setLeft(set);
+            return;
+        }
+        else if (cur.getVal() < set.getVal() && cur.getRight() == null){
+            cur.setRight(set);
+            return;
+        }
+        // Since base case isn't true, check whether to traverse left or right
+        // This is done by comparing the cur and set values
+        if (cur.getVal() > set.getVal()){
+            insertHelper(cur.getLeft(), set);
+        }
+        else{
+            insertHelper(cur.getRight(), set);
+        }
+    }
     /**
      * Determines if the current BST is
      * a valid BST.
